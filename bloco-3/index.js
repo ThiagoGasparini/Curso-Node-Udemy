@@ -17,7 +17,11 @@ app.get("/blog/:artigo?", (req, res) => {
 })
 
 app.get("/canal/youtube", (req, res) => {
-  res.status(200).send("<p>Bem vindo ao meu canal!!!</p>")
+  const { canal } = req.query;
+  if (canal) {
+    return res.status(200).send(`<p>Bem vindo ao canal "${canal}"</p>`)
+  }
+  return res.status(200).send(`<p>Bem vindo ao youtube</p>`)
 })
 
 app.get("/ola/:nome/:empresa", (req, res) => {
