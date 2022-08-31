@@ -22,6 +22,13 @@
     <%} else { %>
       <h3>Nenhum erro!!!</h3>
     <%}%>
+
+    <% produtos.forEach((produto) => { %>
+      <ul>
+        <li>Nome: <%= produto.nome %></li>
+        <li>Preço: <%= produto.preco %></li>
+      </ul>
+    <% }) %>
  
   </body>
 </html>
