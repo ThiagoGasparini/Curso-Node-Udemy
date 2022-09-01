@@ -1,11 +1,7 @@
-h1 {
-  color: blue;
-}
-
 body {
-  background-color: aquamarine;
+  background-color: #eceff1;
 }
 
-img {
-  width: 10%;
+#form-ask {
+  margin-top: 5vh;
 }
