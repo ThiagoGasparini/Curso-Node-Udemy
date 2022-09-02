@@ -1,6 +1,17 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const connection = require('./database/database');
+const Pergunta = require('./database/Pergunta');
+
+connection
+  .authenticate()
+  .then(() => {
+    console.log('conexão feita com o BD');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -8,7 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (_req, res) => {
-  res.render('index')
+  Pergunta.findAll({ raw: true }).then((perguntas) => {
+    res.render('index', {
+      perguntas: perguntas
+    })
+  })
 });
 
 app.get('/perguntar', (_req, res) => {
@@ -18,7 +33,12 @@ app.get('/perguntar', (_req, res) => {
 app.post('/salvarpergunta', (req, res) => {
   let titulo = req.body.titulo
   let descricao = req.body.descricao
-  res.send(`formulário recebido! titulo: ${titulo}, descricao: ${descricao}`);
+  Pergunta.create({
+    titulo: titulo,
+    descricao: descricao
+  }).then(() => {
+    res.redirect('/');
+  })
 });
 
 app.listen(8080, () => {

@@ -5,3 +5,9 @@ body {
 #form-ask {
   margin-top: 5vh;
 }
+
+.ask {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
