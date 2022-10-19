@@ -15,12 +15,20 @@ include('../../partials/navbar.ejs') %>
             type="text"
             name="title"
             placeholder="defina o título do artigo"
-          /> <br>
+          />
+          <br />
           <textarea
             class="form-control"
             name="body"
             placeholder="escreva o artigo aqui"
+            id="article"
           ></textarea>
+          <select name="category" class="form-control">
+            <% categories.forEach((category)=> { %>
+              <option value="<%= category.id %>"><%= category.title %></option>
+            <% }) %>
+          </select>
+          <br>
           <br /><button class="btn btn-success">Cadastrar</button>
         </form>
       </div>
@@ -29,3 +37,27 @@ include('../../partials/navbar.ejs') %>
 </body>
 
 <%- include('../../partials/footer.ejs') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+
+<script>
+  tinymce.init({
+    selector: '#article',
+    plugins: [
+      'advlist',
+      'autolink',
+      'link',
+      'image',
+      'lists',
+      'preview',
+      'searchreplace',
+      'wordcount',
+      'fullscreen',
+      'insertdatetime',
+      'media',
+      'save',
+      'table',
+      'emoticons',
+    ],
+  });
+</script>
