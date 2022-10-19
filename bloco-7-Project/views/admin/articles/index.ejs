@@ -2,9 +2,9 @@
 include('../../partials/navbar.ejs') %>
 <div class="container">
   <hr />
-  <h2>Categorias</h2>
-  <a href="/admin/categories/new" class="btn btn-success"
-    >Criar Nova Categoria</a
+  <h2>Artigos</h2>
+  <a href="/admin/articles/new" class="btn btn-success"
+    >Criar Novo Artigo</a
   >
   <hr>
   <table class="table table-bordered">
@@ -13,29 +13,30 @@ include('../../partials/navbar.ejs') %>
         <th>ID</th>
         <th>Título</th>
         <th>Slug</th>
+        <th>Category</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody>
-      <% categories.forEach(category => { %>
-      <tr>
-        <th><%= category.id %></th>
-        <th><%= category.title%></th>
-        <th><%= category.slug%></th>
-        <th>
-          <a href='/admin/categories/edit/<%= category.id %>' class="btn btn-warning">Editar</a>
-          <form
+      <% articles.forEach(article => { %>
+        <tr>
+          <th><%= article.id %></th>
+          <th><%= article.title %></th>
+          <th><%= article.slug %></th>
+          <th><%= article.category.title %></th>
+          <th>
+            <form
             method="POST"
-            action="/categories/delete"
+            action="/articles/delete"
             style="display: inline"
             onsubmit="deleteConfirm(event, this)"
           >
-            <input type="hidden" name="id" value="<%= category.id %>" />
+            <input type="hidden" name="id" value="<%= article.id %>" />
             <button class="btn btn-danger">Deletar</button>
           </form>
-        </th>
-      </tr>
-      <% }) %>
+          </th>
+        </tr>
+      <% }) %>  
     </tbody>
   </table>
 </div>
