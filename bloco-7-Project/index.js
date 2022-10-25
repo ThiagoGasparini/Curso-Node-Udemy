@@ -8,7 +8,7 @@ const Article = require('./articles/Article');
 const Category = require('./categories/Category');
 
 //view engine
-app.set('view engine', 'ejs'); 
+app.set('view engine', 'ejs');
 
 //static
 app.use(express.static('public'));
@@ -25,15 +25,73 @@ connection
   })
   .catch((error) => {
     console.log(error);
-  })
+  });
 
-app.use('/', categoriesController);  
-app.use('/', articlesController); 
+app.use('/', categoriesController);
+app.use('/', articlesController);
 
 app.get('/', (_req, res) => {
-  res.render('index')
-})
+  Article.findAll({
+    order: [['id', 'DESC']],
+  }).then((articles) => {
+    Category.findAll().then((categories) => {
+      res.render('index', {
+        articles: articles,
+        categories: categories,
+      });
+    });
+  });
+});
+
+app.get('/:slug', (req, res) => {
+  let slug = req.params.slug;
+  Article.findOne({
+    where: {
+      slug: slug,
+    },
+  })
+    .then((article) => {
+      if (article !== undefined) {
+        Category.findAll().then((categories) => {
+          res.render('article', {
+            article: article,
+            categories: categories,
+          });
+        });
+      } else {
+        res.redirect('/');
+      }
+    })
+    .catch((err) => {
+      res.redirect('/');
+    });
+});
+
+app.get('/category/:slug', (req, res) => {
+  let slug = req.params.slug;
+  Category.findOne({
+    where: {
+      slug: slug,
+    },
+    include: [{ model: Article }],
+  })
+    .then((category) => {
+      if (category !== undefined) {
+        Category.findAll().then((categories) => {
+          res.render('index', {
+            articles: category.articles,
+            categories: categories,
+          });
+        });
+      } else {
+        res.redirect('/');
+      }
+    })
+    .catch((err) => {
+      res.redirect('/');
+    });
+});
 
 app.listen(8080, () => {
   console.log('listening on port 8080');
-})
+});
