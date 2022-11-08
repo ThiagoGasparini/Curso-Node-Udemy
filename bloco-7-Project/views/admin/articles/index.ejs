@@ -23,6 +23,7 @@
         <th><%= article.slug %></th>
         <th><%= article.category.title %></th>
         <th>
+          <a href='/admin/articles/edit/<%= article.id %>' class="btn btn-warning">Editar</a>
           <form
             method="POST"
             action="/articles/delete"
