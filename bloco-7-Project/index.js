@@ -33,6 +33,7 @@ app.use('/', articlesController);
 app.get('/', (_req, res) => {
   Article.findAll({
     order: [['id', 'DESC']],
+    limit: 4,
   }).then((articles) => {
     Category.findAll().then((categories) => {
       res.render('index', {
@@ -69,6 +70,7 @@ app.get('/:slug', (req, res) => {
 
 app.get('/category/:slug', (req, res) => {
   let slug = req.params.slug;
+
   Category.findOne({
     where: {
       slug: slug,
@@ -77,8 +79,9 @@ app.get('/category/:slug', (req, res) => {
   })
     .then((category) => {
       if (category !== undefined) {
+        
         Category.findAll().then((categories) => {
-          res.render('index', {
+          res.render('admin/articles/slug', {
             articles: category.articles,
             categories: categories,
           });
